@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wangyu.ems.mapper.TitleMapper">
+
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert into t_title(title_name,base_salary,dept_id) 
+		values(#{titleName},#{baseSalary},#{deptId})
+	</insert>
+
+
+	<update id="update">
+		update t_title 
+		<set>
+				<if test="titleName!=null and titleName!=''">title_name = #{titleName},</if>
+				<if test="baseSalary!=null ">base_salary = #{baseSalary},</if>
+				<if test="deptId!=null ">dept_id = #{deptId}</if>
+		</set>
+		where id = #{id}
+	
+	</update>
+	
+	<delete id="deleteById" >
+		delete from t_title where id = #{id}
+	</delete>
+	
+	<select id="findById" resultType="org.wangyu.ems.entity.Title">
+		select id,title_name,base_salary,dept_id
+		from t_title where id = #{id}
+	</select>
+	
+	
+	<select id="findByDeptId" resultType="org.wangyu.ems.entity.Title">
+		select id,title_name,base_salary,dept_id
+		from t_title where dept_id = #{DeptId}
+	</select>
+	
+	
+	<select id="findByName" resultType="org.wangyu.ems.entity.Title">
+		select id,title_name,base_salary,dept_id
+		from t_title where title_name like #{titleName}
+	</select>
+	
+	
+	<select id="findAll" resultType="org.wangyu.ems.entity.Title">
+		select id,title_name,base_salary,dept_id
+		from t_title
+	</select>
+	
+	
+
+</mapper>

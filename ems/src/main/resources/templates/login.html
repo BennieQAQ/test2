@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>欢迎登录员工信息管理系统</title>
+		<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+		<script language="JavaScript" th:src="@{/js/jquery.js}"></script>
+		<script th:src="@{/js/cloud.js}" type="text/javascript"></script>
+
+		<script language="javascript">
+			$(function() {
+				$('.loginbox').css({
+					'position': 'absolute',
+					'left': ($(window).width() - 692) / 2
+				});
+				$(window).resize(function() {
+					$('.loginbox').css({
+						'position': 'absolute',
+						'left': ($(window).width() - 692) / 2
+					});
+				})
+			});
+		</script>
+
+	</head>
+
+	<body style="background-color:#1c77ac; background-image:url(/images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+
+		<div id="mainBody">
+			<div id="cloud1" class="cloud"></div>
+			<div id="cloud2" class="cloud"></div>
+		</div>
+
+		<div class="logintop">
+			<span>欢迎使用员工信息管理系统平台</span>
+		</div>
+
+		<div class="loginbody">
+		<form th:action="@{/login}" method="post">
+			<span class="systemlogo"></span>
+			<div class="loginbox">
+				<ul>
+					<li><input id="workNumber" type="text" name="account" class="loginuser" placeholder="请输入账号"/></li>
+					<li><input id="password" type="password" name="password" class="loginpwd" placeholder="请输入密码"/></li>
+					<li>
+						<input id="loginsubmit" type="submit" class="loginsubmit" value="登录" />
+						<input id="loginreset" type="button" class="loginreset" value="重置" />
+					</li>
+				</ul>
+			</div>
+			</form>
+
+		</div>
+		<div class="loginbm">版权所有 2018
+			<a href="http://www.uimaker.com">liandi.com</a> 联迪信息新员工培训，勿用于任何商业用途</div>
+		<script>
+			
+			$(function(){
+				
+				//登录
+				//$("#loginsubmit").click(function(){
+					//var account = $("#workNumber").val();
+					//var password = $("#password").val();
+					//window.location="/login?name="+account+"&password="+password;
+				//});
+				
+				//重置
+				//$("#loginreset").click(function(){
+					//$("#workNumber").val("");
+				//$("#password").val("");
+				//});
+				
+			});
+			
+		</script>
+	</body>
+
+</html>

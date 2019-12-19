@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wangyu.ems.mapper.EmployeeMapper">
+
+	<insert id="add" keyProperty="id" useGeneratedKeys="true">
+		insert into t_employee 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null and name!=''">name,</if>
+			<if test="account!=null and account!=''">account,</if>
+			<if test="password!=null and password!=''">password,</if>
+			<if test="birthday!=null ">birthday,</if>
+			<if test="gender!=null ">gender,</if>
+			<if test="phone!=null ">phone,</if>
+			<if test="startDate!=null ">start_date,</if>
+			<if test="titleId!=null ">title_id,</if>
+			<if test="deptId!=null and name!=''">dept_id,</if>
+			<if test="workNumber!=null and name!=''">work_number,</if>
+			<if test="roleId!=null and name!=''">role_id,</if>
+			<if test="status!=null ">status,</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name!=null and name!=''">#{name},</if>
+			<if test="account!=null and account!=''">#{account},</if>
+			<if test="password!=null and password!=''">#{password},</if>
+			<if test="birthday!=null ">#{birthday},</if>
+			<if test="gender!=null ">#{gender},</if>
+			<if test="phone!=null ">#{phone},</if>
+			<if test="startDate!=null ">#{startDate},</if>
+			<if test="titleId!=null ">#{titleId},</if>
+			<if test="deptId!=null and name!=''">#{deptId},</if>
+			<if test="workNumber!=null and name!=''">#{workNumber},</if>
+			<if test="roleId!=null and name!=''">#{roleId},</if>
+			<if test="status!=null ">#{status},</if>
+		</trim>
+	</insert>
+	
+	<update id="updateById">
+		update t_employee set status = 0
+		where id = #{id}
+	</update>
+	
+	<update id="update">
+		update t_employee 
+		<set>
+			<if test="name!=null and name!=''">name = #{name},</if>
+			<if test="account!=null and account!=''">account = #{account},</if>
+			<if test="password!=null and password!=''">password = #{password},</if>
+			<if test="birthday!=null ">birthday = #{birthday},</if>
+			<if test="gender!=null ">gender = #{gender},</if>
+			<if test="phone!=null">phone = #{phone},</if>
+			<if test="startDate!=null ">start_date = #{startDate},</if>
+			<if test="titleId!=null ">title_id = #{titleId},</if>
+			<if test="deptId!=null ">dept_id = #{deptId},</if>
+			<if test="workNumber!=null ">work_number = #{workNumber},</if>
+			<if test="roleId!=null ">role_id = #{roleId},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+
+	<select id="findByAccounAndPassword"
+		resultType="org.wangyu.ems.entity.Employee">
+		select id,name,account,password,birthday,gender,phone,start_date,title_id,
+		dept_id,work_number,role_id,status
+		from t_employee
+		where account = #{account}
+		and password = #{password}
+	</select>
+	
+	<select id="findCount" resultType="int">
+		select  count(*) from t_employee
+		where status = 1
+	</select>
+	
+	<select id="findByName" resultType="org.wangyu.ems.entity.Employee">
+		select id,name,account,password,birthday,gender,phone,start_date,title_id,
+		dept_id,work_number,role_id,status
+		from t_employee
+		where name like #{name}
+	</select>
+	
+	<select id="findByPage" resultType="org.wangyu.ems.entity.Employee">
+		select id,name,account,password,birthday,gender,phone,start_date,title_id,
+		dept_id,work_number,role_id,status
+		from t_employee
+		where status = 1
+		limit #{start},#{length}
+	</select>
+
+	<select id="findById"
+		resultType="org.wangyu.ems.entity.Employee">
+		select id,name,account,password,birthday,gender,phone,start_date,title_id,
+		dept_id,work_number,role_id,status
+		from t_employee
+		where id = #{id}
+	</select>
+
+	<select id="findAll" resultType="org.wangyu.ems.entity.Employee">
+		select id,name,account,password,birthday,gender,phone,start_date,title_id,
+		dept_id,work_number,role_id,status
+		from t_employee
+		where status = 1
+	</select>
+
+
+</mapper>

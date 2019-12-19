@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+		<script type="text/javascript">
+			$(function(){
+				$(".querybtn").click(function(){
+					var salaryName = $("#querySalaryName").val();
+					$.post({
+						url:"/attendance/query",
+						data:{"salaryName":salaryName},
+						success:function(data){
+							$(".tbodydata").remove();
+							$(".tb").remove();
+							$.each(data,function(i,salary){
+								$(".tablelist").append(
+										"<tbody class='tbodydata'>"+
+										"<tr >"+
+										"<td><input name='' type='checkbox' value='' /></td>"+
+										"<td>"+(i+1)+"</td>"+
+										"<td>"+salary.emp.name+"</td>"+
+										"<td>"+salary.year+"</td>"+
+										"<td>"+salary.month+"</td>"+
+										"<td>"+salary.endowmentInsurance+"</td>"+
+										"<td>"+salary.medicalInsurance+"</td>"+
+										"<td>"+salary.injuryInsurance+"</td>"+
+										"<td>"+salary.birthInsurance+"</td>"+
+										"<td>"+salary.unemployInsurance+"</td>"+
+										"<td>"+
+										
+										"</td>"+
+										"</tr>"+
+										"</tbody>"
+								);
+							});
+						},
+						dataType:"json"
+					});
+				});
+				
+			});
+		
+		</script>
+
+	</head>
+
+	<body>
+
+		<div class="place">
+			<span>位置:</span>
+			<ul class="placeul">
+				<li>
+					<a href="#">薪资管理</a>
+				</li>
+				<li>
+					<a th:href="@{/attendance/SalaryList}">薪资列表</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="rightinfo">
+
+			<div class="tools" style="background-color: #949494;">
+
+				<div class="queryform" style="background-color: dark">
+					<label class="" for="querySalaryName">员工名称</label>
+					<input id="querySalaryName" type="text" class="queryinput" />
+					<input type="button" class="querybtn" value="查询"/>
+				</div>
+				
+				<div style="background-color: magenta;float: right;">
+				
+
+			</div>
+
+			<table class="tablelist">
+				<thead>
+					<tr>
+						<th><input name="" type="checkbox" value="" checked="checked" /></th>
+						<th>序号</th>
+						<th>员工姓名</th>
+						<th>年份</th>
+						<th>月份</th>
+						<th>养老保险</th>
+						<th>医疗保险</th>
+						<th>工伤保险</th>
+						<th>生育保险</th>
+						<th>失业保险</th>
+						<th>操作</th>
+						<!--  
+						<th>用户</th>
+						<th>籍贯</th>
+						<th>发布时间</th>
+						<th>是否审核</th>
+						<th>操作</th>
+						-->
+					</tr>
+				</thead>
+				<tbody class="tb">
+					<tr th:each="salary,status :${list}">
+						<td><input name="" type="checkbox" value="" /></td>
+						<td th:text="${status.count}">1</td>
+						<td th:text="${salary.emp.name}">员工姓名</td>
+						<td th:text="${salary.year}">年份</td>
+						<td th:text="${salary.month}">月份</td>
+						<td th:text="${salary.endowmentInsurance}">养老保险</td>
+						<td th:text="${salary.medicalInsurance}">医疗保险</td>
+						<td th:text="${salary.injuryInsurance}">工伤保险</td>
+						<td th:text="${salary.birthInsurance}">生育保险</td>
+						<td th:text="${salary.unemployInsurance}">失业保险</td>
+						<td>
+							<!--  <a th:href="@{/dept/remove(id=${dept.id},status=${false})}" class="tablelink" onclick="return confirm('确定删除吗?')">删除部门</a>-->
+							<!--<a th:href="@{/attendance/remove(id=${salary.id})}" class="tablelink" onclick="return confirm('确定删除吗?')">删除记录</a>-->
+						</td>
+						<!--  
+						<td>admin</td>
+						<td>江苏南京</td>
+						<td>2013-09-09 15:05</td>
+						<td>已审核</td>
+						<td>
+							<a href="#" class="tablelink">查看</a>
+							<a href="#" class="tablelink"> 删除</a>
+						</td>
+						-->
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="pagin">
+				<div class="message">共<i class="blue">1256</i>条记录，当前显示第&nbsp;<i class="blue">2&nbsp;</i>页</div>
+				<ul class="paginList">
+					<li class="paginItem">
+						<a href="javascript:;"><span class="pagepre"></span></a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">1</a>
+					</li>
+					<li class="paginItem current">
+						<a href="javascript:;">2</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">3</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">4</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">5</a>
+					</li>
+					<li class="paginItem more">
+						<a href="javascript:;">...</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">10</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;"><span class="pagenxt"></span></a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<script type="text/javascript">
+			$('.tablelist tbody tr:odd').addClass('odd');
+		</script>
+
+	</body>
+
+</html>

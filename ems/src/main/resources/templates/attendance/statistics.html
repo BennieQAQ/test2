@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/select.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.idTabs.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/select-ui.min.js}"></script>
+<script type="text/javascript" th:src="@{/editor/kindeditor.js}"></script>
+
+<script type="text/javascript">
+    KE.show({
+        id : 'content7',
+        cssPath : './index.css'
+    });
+  </script>
+  
+  <script type="text/javascript">
+	
+	$(function(){
+		var date = new Date();
+		var year = date.getFullYear();
+		var month = date.getMonth()+1;
+		var day = date.getDate();
+		var Time = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+		var employeeId = $("#employeeid").val();
+		$("#signIn").click(function(){
+			$.post({
+				url:"/attendance/check",
+				data:{"year":year,"month":month,"day":day,"Time":Time,"employeeId":employeeId},
+				success:function(data){
+					$(".tb").remove();
+					$(".tbodydata").remove();
+					$.each(data,function(i,statistics){
+						$(".tablelist").append(
+							"<tr class='tbodydata'>"+
+							"<td><input name='' type='checkbox' value='' /></td>"+
+							"<td>"+statistics.id+"</td>"+
+							"<td>"+statistics.year+"</td>"+
+							"<td>"+statistics.month+"</td>"+
+							"<td>"+statistics.employee.name+"</td>"+
+							"<td>"+statistics.baseSalary+"</td>"+
+							"<td>"+statistics.lateCount+"</td>"+
+							"<td>"+statistics.leaveCount+"</td>"+
+							"<td>"+statistics.attendance+"</td>"+
+							"<td>"+statistics.absenteeismDay+"</td>"+
+							"<td>"+statistics.originDay+"</td>"+
+							"<td>"+statistics.actualDay+"</td>"+
+							"</tr>"
+						);
+					});
+					
+				},
+				
+			});
+		});
+		
+		$("#signBack").click(function(){
+			$.post({
+				url:"/attendance/Signback",
+				data:{"year":year,"month":month,"day":day,"Time":Time,"employeeId":employeeId},
+				success:function(data){
+					$(".tb").remove();
+					$(".tbodydata").remove();
+				$.each(data,function(i,statistics){
+						$(".tablelist").append(
+							"<tr class='tbodydata'>"+
+							"<td><input name='' type='checkbox' value='' /></td>"+
+							"<td>"+statistics.id+"</td>"+
+							"<td>"+statistics.year+"</td>"+
+							"<td>"+statistics.month+"</td>"+
+							"<td>"+statistics.employee.name+"</td>"+
+							"<td>"+statistics.baseSalary+"</td>"+
+							"<td>"+statistics.lateCount+"</td>"+
+							"<td>"+statistics.leaveCount+"</td>"+
+							"<td>"+statistics.attendance+"</td>"+
+							"<td>"+statistics.absenteeismDay+"</td>"+
+							"<td>"+statistics.originDay+"</td>"+
+							"<td>"+statistics.actualDay+"</td>"+
+							"</tr>"
+						);
+					});
+				},
+			});
+		});
+		
+		
+	});
+	
+	
+	
+  </script>
+  
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $(".select1").uedSelect({
+		width : 345			  
+	});
+	$(".select2").uedSelect({
+		width : 167  
+	});
+	$(".select3").uedSelect({
+		width : 100
+	});
+});
+</script>
+<script type="text/javascript">
+	$(function(){
+		$("#buttonAll").click(function(){
+			var name = $("#queryAll").val();
+			$.post({
+				url:"/attendance/queryAll",
+				data:{"name":name},
+				success:function(data){
+					$(".tb").remove();
+					$(".tbodydata").remove();
+					$.each(data,function(i,statistics){
+						$(".tablelist").append(
+						"<tr class='tbodydata'>"+
+						"<td><input name='' type='checkbox' value='' /></td>"+
+						"<td>"+statistics.id+"</td>"+
+						"<td>"+statistics.year+"</td>"+
+						"<td>"+statistics.month+"</td>"+
+						"<td>"+statistics.employee.name+"</td>"+
+						"<td>"+statistics.baseSalary+"</td>"+
+						"<td>"+statistics.lateCount+"</td>"+
+						"<td>"+statistics.leaveCount+"</td>"+
+						"<td>"+statistics.attendance+"</td>"+
+						"<td>"+statistics.absenteeismDay+"</td>"+
+						"<td>"+statistics.originDay+"</td>"+
+						"<td>"+statistics.actualDay+"</td>"+
+						"</tr>"
+						);
+					});
+				},
+			});
+		});
+	});
+	
+</script>
+</head>
+
+<body>
+
+	<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    <li><a th:href="@{/index}">首页</a></li>
+    <li><a th:href="@{/attendance/attendancelist}">考勤统计</a></li>
+    </ul>
+    </div>
+    
+    <div class="formbody">
+    
+    
+    <div id="usual1" class="usual"> 
+    
+    <div class="itab">
+  	<ul> 
+    <li><a href="#tab2">考勤管理</a></li> 
+  	</ul>
+    </div> 
+    
+    
+  	<div id="tab2" class="tabson">
+    
+    
+    <ul class="seachform">
+    
+    <li><label>综合查询</label><input name="" id="queryAll" type="text" class="scinput" /></li>
+    <li><label>&nbsp;</label><input name="" id="buttonAll"  type="button" class="scbtn" value="查询"/></li>
+    <li><label>&nbsp;</label><input name="" id="signIn" type="button" class="scbtn" value="签到"/>
+    <input id="employeeid"  type="hidden"  th:value="${session.employee.id}"/></li>
+	<li><label>&nbsp;</label><input name="" id="signBack"  type="button" class="scbtn" value="签出"/></li>
+    
+    </ul>
+    
+    
+    <table class="tablelist">
+    	<thead>
+    	<tr>
+        <th><input name="" type="checkbox" value="" checked="checked"/></th>
+        <th>编号</th>
+        <th>年份</th>
+        <th>月份</th>
+        <th>员工姓名</th>
+        <th>基础工资</th>
+        <th>迟到次数</th>
+        <th>早退次数</th>
+        <th>出勤天数</th>
+        <th>旷工次数</th>
+        <th>应到天数</th>
+        <th>实到天数</th>
+        </tr>
+        </thead>
+        <tbody class="tb">
+	        <tr th:each="statistics,status :${list}">
+	        <td><input name="" type="checkbox" value="" /></td>
+	        <td th:text="${status.count}">1</td>
+	        <td th:text="${statistics.year}">2019</td>
+	        <td th:text="${statistics.month}">admin</td>
+	        <td th:text="${statistics.employee.name}">admin</td>
+	        <td th:text="${statistics.baseSalary}">江苏南京</td>
+	        <td th:text="${statistics.lateCount}">江苏南京</td>
+	        <td th:text="${statistics.leaveCount}">江苏南京</td>
+	        <td th:text="${statistics.attendance}">江苏南京</td>
+	        <td th:text="${statistics.absenteeismDay}">江苏南京</td>
+	        <td th:text="${statistics.originDay}">江苏南京</td>
+	        <td th:text="${statistics.actualDay}">江苏南京</td>
+	        </tr> 
+	        
+        </tbody>
+    </table>
+    
+   
+  
+    
+    </div>  
+       
+	</div> 
+ 
+	<script type="text/javascript"> 
+      $("#usual1 ul").idTabs(); 
+    </script>
+    
+    <script type="text/javascript">
+	$('.tablelist tbody tr:odd').addClass('odd');
+	</script>
+    
+    
+    
+    
+    
+    </div>
+
+
+</body>
+
+</html>

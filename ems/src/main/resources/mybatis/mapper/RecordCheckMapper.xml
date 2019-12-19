@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wangyu.ems.mapper.RecordCheckMapper">
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert into t_checkrecord
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="employeeId != null">employee_id,</if>
+			<if test="year != null">year,</if>
+			<if test="month != null">month,</if>
+			<if test="day != null">day,</if>
+			<if test="checkTime != null">check_time,</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="employeeId != null">#{employeeId},</if>
+			<if test="year != null">#{year},</if>
+			<if test="month != null">#{month},</if>
+			<if test="day != null">#{day},</if>
+			<if test="checkTime != null">#{checkTime},</if>
+		</trim>
+	</insert>
+	
+	
+	<select id="findByDay" resultType="org.wangyu.ems.entity.RecordCheck">
+		select id,employee_id,year,month,day,check_time
+		from t_checkrecord
+		where day = #{day}
+		and employee_id = #{employeeId}
+		and year = #{year}
+		and month = #{month}
+		order by check_time
+	</select>
+	
+	<select id="findById" resultType="org.wangyu.ems.entity.RecordCheck">
+		select id,employee_id,year,month,day,check_time
+		from t_checkrecord
+		where id = #{CheckId}
+	</select>
+	
+	
+	
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

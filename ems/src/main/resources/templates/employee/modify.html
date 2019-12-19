@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>修改</title>
+<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/select.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.idTabs.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/select-ui.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/My97DatePicker/WdatePicker.js}"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $(".select1").uedSelect({
+		width : 345			  
+	});
+	$(".select2").uedSelect({
+		width : 345  
+	});
+	$(".select3").uedSelect({
+		width : 100
+	});
+});
+</script>
+<script type="text/javascript">
+	$(function(){
+		$.post({
+			url:"/dept/queryAll",
+			success:function(data){
+				$.each(data,function(i,dept){
+					$(".select1").append(
+						" <option class='choiceDept' value='" + dept.id + "' >"+dept.deptName+"</option>"	
+					);
+				});
+			},
+			dataType:"json"
+		});
+		
+		$("#deptnames").click(function(){
+			var deptnames = $("#deptnames").val();
+			if(deptnames != null && deptnames !=''){
+				$.post({
+					url:"/title/queryById",
+					data:{"deptnames":deptnames},
+					success:function(data){
+						$(".choiceTitle").remove();
+						$.each(data,function(i,title){
+							$(".select2").append(
+								" <option class='choiceTitle' value='" + title.id + "' >"+title.titleName+"</option>"	
+							)
+						});
+					},
+					dataType:"json"
+				});
+			};
+		});
+	});
+	
+	
+
+
+</script>
+</head>
+
+<body>
+
+	<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    <li><a th:href="@{/employee/emplist}">员工管理</a></li>
+    <li><a th:href="@{/employee/emplist}">员工修改</a></li>
+    </ul>
+    </div>
+    
+    <div class="formbody">
+     <form th:action="@{/employee/modify}" method="post">
+    <div class="formtitle"><span>修改员工</span></div>
+    
+	    <ul class="forminfo">
+	    <li><label>员工名称</label><input name="name" type="text" class="dfinput" th:value="${employee.name}" /><input type="hidden" name="id" th:value="${employee.id}"/><i>职位号不能超过30个字符</i></li>
+	    <li><label>员工生日</label><input name="birth" class="dfinput" type="text" id="d16" onclick="WdatePicker()" th:value="${#dates.format(employee.birthday,'yyyy-MM-dd')}"/><i>多个关键字用,隔开</i></li>
+	    <li><label>手机号码</label><input name="phone" class="dfinput" type="text"   th:value="${employee.phone}"/><i>多个关键字用,隔开</i></li>
+	    <li><label>员工工号</label><input name="workNumber" class="dfinput" type="text"   th:value="${employee.workNumber}"/><i>多个关键字用,隔开</i></li>
+	    <li><label>入职日期</label><input name="start" class="dfinput" type="text" id="d121" onclick="WdatePicker()" th:value="${#dates.format(employee.startDate,'yyyy-MM-dd')}"/><i>多个关键字用,隔开</i></li>
+	    <li><label>性别</label><cite><input name="gender" type="radio" value="true" th:attr="checked=${employee.gender?true:false}" />男&nbsp;&nbsp;&nbsp;&nbsp;
+	    <input name="gender" type="radio" value="false" th:attr="checked=${employee.gender?false:true}" />女</cite></li>
+	    <!-- <li><label>部门名称</label><input name="deptName" type="text" class="dfinput" th:value="${title.dept.deptName}" /><i>请符合规范</i></li> -->
+		 <li><label>部门名称</label>  
+		    <div class="vocation">
+		    <select id="deptnames" name="deptId"  class="select1"  >
+		    <option class="choiceDept" th:value="${employee.deptId}" th:text="${employee.dept.deptName}"></option>
+		    </select>
+		    </div>
+	    </li>
+	    <li><label>职位名称</label>  
+		    <div class="vocation">
+		    <select id="titlenames" name="titleId"  class="select2"  >
+		    <option class="choiceTitle" th:value="${employee.titleId}" th:text="${employee.title.titleName}"></option>
+		    <option value="">请选择</option>
+		    </select>
+		    </div>
+	    </li>
+	    <li><label>&nbsp;</label><cite><input  type="submit" class="btn" value="修改"/>
+	    <input  type="button" class="btn" value="返回" onclick="window.history.back()"/></cite></li>
+	    </ul>
+    </form>
+    </div>
+    
+
+
+</body>
+
+</html>

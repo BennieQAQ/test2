@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wangyu.ems.mapper.StatisticsMapper">
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert into t_statistics
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="year !=null">year,</if>
+			<if test="month !=null">month,</if>
+			<if test="baseSalary !=null">base_salary,</if>
+			<if test="lateCount !=null">late_count,</if>
+			<if test="leaveCount !=null">leave_count,</if>
+			<if test="attendance !=null">attendance,</if>
+			<if test="absenteeismDay !=null">absenteeism_day,</if>
+			<if test="originDay !=null">origin_day,</if>
+			<if test="actualDay !=null">actual_day,</if>
+			<if test="finallySalary !=null">finally_salary,</if>
+			<if test="employeeId !=null">employee_id,</if>
+		</trim>
+		values
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="year !=null">#{year},</if>
+			<if test="month !=null">#{month},</if>
+			<if test="baseSalary !=null">#{baseSalary},</if>
+			<if test="lateCount !=null">#{lateCount},</if>
+			<if test="leaveCount !=null">#{leaveCount},</if>
+			<if test="attendance !=null">#{attendance},</if>
+			<if test="absenteeismDay !=null">#{absenteeismDay},</if>
+			<if test="originDay !=null">#{originDay},</if>
+			<if test="actualDay !=null">#{actualDay},</if>
+			<if test="finallySalary !=null">#{finallySalary},</if>
+			<if test="employeeId !=null">#{employeeId},</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="modify">
+		update t_statistics 
+		<set>
+			<if test="year != null">year = #{year},</if>
+			<if test="month != null">month = #{month},</if>
+			<if test="baseSalary != null">base_salary = #{baseSalary},</if>
+			<if test="lateCount != null">late_count = #{lateCount},</if>
+			<if test="leaveCount != null">leave_count = #{leaveCount},</if>
+			<if test="attendance != null">attendance = #{attendance},</if>
+			<if test="absenteeismDay != null">absenteeism_day = #{absenteeismDay},</if>
+			<if test="originDay != null">origin_day = #{originDay},</if>
+			<if test="actualDay != null">actual_day = #{actualDay},</if>
+			<if test="finallySalary != null">finally_salary = #{finallySalary},</if>
+		</set>
+		where employee_id = #{employeeId}
+	
+	</update>
+	
+	
+	<select id="findByYearAndMonth" resultType="org.wangyu.ems.entity.Statistics">
+			select 
+			id,
+			year,
+			month,
+			base_salary,
+			late_count,
+			leave_count,
+			attendance,
+			absenteeism_day,
+			origin_day,
+			actual_day,
+			finally_salary,
+			employee_id
+		from t_statistics
+		where year = #{year}
+		and month = #{month}
+		and employee_id = #{employeeId}
+	</select>
+	
+	
+	<select id="findByEmployeeId" resultType="org.wangyu.ems.entity.Statistics">
+		select 
+			id,
+			year,
+			month,
+			base_salary,
+			late_count,
+			leave_count,
+			attendance,
+			absenteeism_day,
+			origin_day,
+			actual_day,
+			finally_salary,
+			employee_id
+		from t_statistics
+		where employee_id = #{employeeId}
+	
+	</select>
+	
+	
+	
+	
+	<select id="findByCheckRecord" resultType="org.wangyu.ems.entity.Statistics">
+		select 
+			id,
+			year,
+			month,
+			base_salary,
+			late_count,
+			leave_count,
+			attendance,
+			absenteeism_day,
+			origin_day,
+			actual_day,
+			finally_salary,
+			employee_id
+		from t_statistics
+		where year = #{year}
+		and month = #{month}
+		and employee_id = #{employeeId}
+	</select>
+	
+	
+	<select id="findAll" resultType="org.wangyu.ems.entity.Statistics">
+		select 
+			id,
+			year,
+			month,
+			base_salary,
+			late_count,
+			leave_count,
+			attendance,
+			absenteeism_day,
+			origin_day,
+			actual_day,
+			finally_salary,
+			employee_id
+		from t_statistics
+	</select>
+	
+
+
+</mapper>

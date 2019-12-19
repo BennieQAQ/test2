@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wangyu.ems.mapper.SalaryMapper">
+
+
+	<insert id="addSalary"  keyProperty="id" useGeneratedKeys="true">
+		insert into t_salary
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="year != null">year,</if>
+				<if test="month != null">month,</if>
+				<if test="employeeId != null">employee_id,</if>
+				<if test="endowmentInsurance != null">endowment_insurance,</if>
+				<if test="medicalInsurance != null">medical_insurance,</if>
+				<if test="injuryInsurance != null">injury_insurance,</if>
+				<if test="birthInsurance != null">birth_insurance,</if>
+				<if test="unemployInsurance != null">unemploy_insurance,</if>
+			</trim>
+			values
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				<if test="year != null">#{year},</if>
+				<if test="month != null">#{month},</if>
+				<if test="employeeId != null">#{employeeId},</if>
+				<if test="endowmentInsurance != null">#{endowmentInsurance},</if>
+				<if test="medicalInsurance != null">#{medicalInsurance},</if>
+				<if test="injuryInsurance != null">#{injuryInsurance},</if>
+				<if test="birthInsurance != null">#{birthInsurance},</if>
+				<if test="unemployInsurance != null">#{unemployInsurance},</if>
+			</trim>
+	</insert>
+
+	<select id="findAll" resultType="org.wangyu.ems.entity.Salary">
+		select 
+		id,
+		year,
+		month,
+		employee_id,
+		endowment_insurance,
+		medical_insurance,
+		injury_insurance,
+		birth_insurance,
+		unemploy_insurance
+		from t_salary
+	</select>
+	
+	<select id="findDistinctSalary" resultType="org.wangyu.ems.entity.Salary">
+		SELECT DISTINCT employee_id from t_salary
+	</select>
+	
+	<select id="findById" resultType="org.wangyu.ems.entity.Salary">
+		SELECT id,
+		year,
+		month,
+		employee_id,
+		endowment_insurance,
+		medical_insurance,
+		injury_insurance,
+		birth_insurance,
+		unemploy_insurance
+		 FROM t_salary WHERE employee_id = #{id}
+	</select>
+	
+	
+	
+	
+	<update id="update">
+		update t_salary
+		<set>
+			<if test="year != null">year = #{year}</if>
+			<if test="month != null">month = #{month}</if>
+			<if test="employeeId != null">employee_id = #{employeeId}</if>
+			<if test="endowmentInsurance != null">endowment_insurance = #{endowmentInsurance}</if>
+			<if test="medicalInsurance != null">medical_insurance = #{medicalInsurance}</if>
+			<if test="injuryInsurance != null">injury_insurance = #{injuryInsurance}</if>
+			<if test="birthInsurance != null">birth_insurance = #{birthInsurance}</if>
+			<if test="unemployInsurance != null">unemploy_insurance = #{unemployInsurance}</if>
+		</set>
+			where id = #{id}
+	</update>
+
+	<delete id="deleteById" >
+		delete from t_salary where id = #{id}
+	</delete>
+
+
+
+
+
+</mapper>

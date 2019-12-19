@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+		<script type="text/javascript">
+			$(function(){
+				$(".querybtn").click(function(){
+					var name =	$("#queryEmployeeName").val();
+					//alert(name);
+					$.post({
+						url:"/employee/query",
+						data:{"name":name},
+						success:function(data){
+							$(".tbodydata").remove();
+							$(".tb").remove();
+							$.each(data,function(i,Employee){
+							$(".tablelist").append(
+									"<tbody class='tbodydata'>"+
+									"<tr >"+
+									"<td><input name='' type='checkbox' value='' /></td>"+
+									"<td>"+Employee.id+"</td>"+
+									"<td>"+Employee.name+"</td>"+
+									"<td>"+Employee.birthday+"</td>"+
+									"<td>"+(Employee.gender?"男":"女")+"</td>"+
+									"<td>"+Employee.phone+"</td>"+
+									"<td>"+Employee.startDate+"</td>"+
+									"<td>"+Employee.title.titleName+"</td>"+
+									"<td>"+Employee.dept.deptName+"</td>"+
+									"<td>"+Employee.workNumber+"</td>"+
+									"<td>"+
+										"<a href='/employee/tomodify?id="+Employee.id+"' class='tablelink' >修改员工</a>&nbsp;&nbsp;"+
+										"<a href='/employee/remove?id="+Employee.id+"' class='tablelink' onclick='return confirm(\"确定删除吗?\")'>删除员工</a>"+
+									"</td>"+
+									"</tr>"+
+									"</tbody>"
+								);
+							});
+						},
+						dataType:"json"
+					});
+				});
+				
+			});
+		
+		</script>
+		<script type="text/javascript" th:inline="javascript">
+				function PageData(start,length){
+					$.post({
+						url:/*[[@{/employee/queryPage}]]*/,
+						data:{"start":start,"length":length},
+						success:function(data){
+							$("#totalCount").html(data.count);
+							$("#currentPage").html(data.currentPage);
+							$("#totalPage").html(data.totalPage);
+							//遍历之前先删掉之前的数据
+							$(".tbodydata").remove();  
+							$(".tb").remove();
+							$.each(data.data,function(i,Employee){
+								//var CountNumber = i+1;
+								$(".tablelist").append(
+									"<tbody class='tbodydata'>"+
+									"<tr >"+
+									"<td><input name='' type='checkbox' value='' /></td>"+
+									"<td>"+((data.currentPage-1)*data.countPage+(i+1))+"</td>"+
+									"<td>"+Employee.name+"</td>"+
+									"<td>"+Employee.birthday+"</td>"+
+									"<td>"+(Employee.gender?"男":"女")+"</td>"+
+									"<td>"+Employee.phone+"</td>"+
+									"<td>"+Employee.startDate+"</td>"+
+									"<td>"+Employee.title.titleName+"</td>"+
+									"<td>"+Employee.dept.deptName+"</td>"+
+									"<td>"+Employee.workNumber+"</td>"+
+									"<td>"+
+										"<a href='tomodify?id="+Employee.id+"' class='tablelink' >修改员工</a>&nbsp;&nbsp;"+
+										"<a href='remove?id="+Employee.id+"' class='tablelink' onclick='return confirm(\"确定删除吗?\")'>删除员工</a>"+
+									"</td>"+
+
+									"</tr>"+
+									"</tbody>"
+								);
+							});
+						},
+						dataType:"json"
+					});
+				}
+				
+				
+		$(function(){
+			PageData(0,5);
+			
+			
+			$(".pagepre").click(function(){
+				var currentPage = $("#currentPage").html();
+				var length = 5;
+				var totalPage = $("#totalPage").html();
+				var start = (currentPage-2)*length;
+				if(currentPage==1){
+					alert("已经是第一页了");
+					return;
+				}
+				PageData(start,length);
+			});
+			
+			$(".pagenxt").click(function(){
+				var currentPage = $("#currentPage").html();
+				var length = 5;
+				var totalPage = $("#totalPage").html();
+				if(currentPage==totalPage){
+					alert("最后一页了")
+					return;
+				}
+				PageData(currentPage*length,length);
+			}) ;
+		});		
+	</script>
+
+	</head>
+
+	<body>
+
+		<div class="place">
+			<span>位置:</span>
+			<ul class="placeul">
+				<li>
+					<a th:href="@{/employee/emplist}">员工管理</a>
+				</li>
+				<li>
+					<a th:href="@{/employee/emplist}">员工列表</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="rightinfo">
+
+			<div class="tools" style="background-color: #949494;">
+
+				<div class="queryform" style="background-color: dark">
+					<label class="" for="queryEmployeeName">员工名称</label>
+					<input id="queryEmployeeName" type="text" class="queryinput" />
+					<input type="button" class="querybtn" value="查询"/>
+				</div>
+				
+				<div style="background-color: magenta;float: right;">
+				</div>
+
+			</div>
+
+			<table class="tablelist">
+				<thead>
+					<tr>
+						<th><input name="" type="checkbox" value="" checked="checked" /></th>
+						<th>序号</th>
+						<th>员工姓名</th>
+						<th>出生日期</th>
+						<th>性别</th>
+						<th>电话号码</th>
+						<th>入职日期</th>
+						<th>职位</th>
+						<th>部门名称</th>
+						<th>工号</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="tb">
+					<tr th:each="employee,status :${list}">
+						<td><input name="" type="checkbox" value="" /></td>
+						<td th:text="${status.count}">1</td>
+						<td th:text="${employee.name}">王宇</td>
+						<td th:text="${#dates.format(employee.birthday,'yyyy-MM-dd')}">出生日期</td>
+						<td th:text="${employee.gender?'男':'女'}">性别</td>
+						<td th:text="${employee.phone}">18344662311</td>
+						<td th:text="${#dates.format(employee.startDate,'yyyy-MM-dd')}">2018-01-25</td>
+						<td th:text="${employee.title.titleName}">程序员</td>
+						<td th:text="${employee.dept.deptName}">部门名称</td>
+						<td th:text="${employee.workNumber}">部门名称</td>
+						<td>
+						   
+							<a th:href="@{/employee/tomodify(id=${employee.id})}" class="tablelink">修改员工</a>
+							<a th:href="@{/employee/remove(id=${employee.id})}" class="tablelink" onclick="return confirm('确定删除吗?')">删除员工</a>
+							
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="pagin">
+				<div class="message">共<i id="totalCount" class="blue">1256</i>条记录，当前显示第&nbsp;<i id="currentPage" class="blue">2&nbsp;</i>页，一共&nbsp;
+				<i id="totalPage" class="blue">2</i>页</div>
+				<ul class="paginList">
+					<li class="paginItem">
+						  <a href="javascript:;"><span class="pagepre"></span></a>
+					</li>
+					<!--  <li class="paginItem">
+						<a href="javascript:;">1</a>
+					</li>
+					<li class="paginItem current">
+						<a href="javascript:;">2</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">3</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">4</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">5</a>
+					</li>
+					<li class="paginItem more">
+						<a href="javascript:;">...</a>
+					</li>
+					<li class="paginItem">
+						<a href="javascript:;">10</a>
+					</li>-->
+					<li class="paginItem">
+						<a href="javascript:;"><span class="pagenxt"></span></a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<script type="text/javascript">
+			$('.tablelist tbody tr:odd').addClass('odd');
+		</script>
+
+	</body> 
+
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wangyu.ems.mapper.DeptMapper">
+
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		t_dept(dept_name,status) values(#{deptName},#{status})
+	</insert>
+	
+	<update id="update">
+		update  t_dept set status = #{status}
+		where id = #{id}
+	</update>
+	
+	<update id="updataName">
+		update  t_dept set dept_name = #{deptName}
+		where id = #{id}
+	</update>
+	
+	<select id="findByName" resultType="org.wangyu.ems.entity.Dept">
+		select id,dept_name,status from t_dept
+		where dept_name like #{deptName}
+	</select>
+
+	<select id="findAll" resultType="org.wangyu.ems.entity.Dept">
+		select id,dept_name,status from t_dept where status = 1
+	</select>
+	
+	<select id="findById" resultType="org.wangyu.ems.entity.Dept">
+		select id,dept_name,status from t_dept where id = #{id}
+	</select>
+
+
+</mapper>

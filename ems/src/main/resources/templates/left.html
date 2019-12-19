@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+		<script language="JavaScript" th:src="@{/js/jquery.js}"></script>
+
+		<script type="text/javascript">
+			$(function() {
+				//导航切换
+				$(".menuson li").click(function() {
+					$(".menuson li.active").removeClass("active")
+					$(this).addClass("active");
+				});
+
+				$('.title').click(function() {
+					var $ul = $(this).next('ul');
+					$('dd').find('ul').slideUp();
+					if($ul.is(':visible')) {
+						$(this).next('ul').slideUp();
+					} else {
+						$(this).next('ul').slideDown();
+					}
+				});
+			})
+		</script>
+
+	</head>
+
+	<body style="background:#f0f9fd;">
+		<div class="lefttop"><span></span>系统功能</div>
+
+		<dl class="leftmenu">
+
+			<dd>
+				<div class="title">
+					<span><img th:src="@{/images/leftico01.png}" /></span>模板页
+				</div>
+				<ul class="menuson">
+					<li><cite></cite><a th:href="@{/index.html}" target="rightFrame">首页模版</a><i></i></li>
+					<li><cite></cite><a href="right.html" target="rightFrame">数据列表</a><i></i></li>
+					<li><cite></cite><a href="imgtable.html" target="rightFrame">图片数据表</a><i></i></li>
+					<li><cite></cite><a href="form.html" target="rightFrame">添加编辑</a><i></i></li>
+					<li><cite></cite><a href="imglist.html" target="rightFrame">图片列表</a><i></i></li>
+					<li><cite></cite><a href="imglist1.html" target="rightFrame">自定义</a><i></i></li>
+					<li><cite></cite><a href="tools.html" target="rightFrame">常用工具</a><i></i></li>
+					<li><cite></cite><a href="filelist.html" target="rightFrame">信息管理</a><i></i></li>
+					<li><cite></cite><a href="tab.html" target="rightFrame">Tab页</a><i></i></li>
+					<li><cite></cite><a href="error.html" target="rightFrame">404页面</a><i></i></li>
+				</ul>
+			</dd>
+
+			<dd>
+				<div class="title">
+					<span><img th:src="@{/images/leftico01.png}" /></span>部门管理
+				</div>
+				<ul class="menuson">
+					<li><cite></cite><a th:href="@{/dept/list}" target="rightFrame">部门列表</a><i></i></li>
+					<li><cite></cite><a th:href="@{/dept/toAdd}" target="rightFrame">部门添加</a><i></i></li>
+				</ul>
+			</dd>
+			
+			<dd>
+				<div class="title">
+					<span><img th:src="@{/images/leftico01.png}" /></span>职位管理
+				</div>
+				<ul class="menuson">
+					<li><cite></cite><a th:href="@{/title/titlelist}" target="rightFrame">职位列表</a><i></i></li>
+					<li><cite></cite><a th:href="@{/title/titletoAdd}" target="rightFrame">职位添加</a><i></i></li>
+				</ul>
+			</dd>
+			
+			<dd>
+				<div class="title">
+					<span><img th:src="@{/images/leftico01.png}" /></span>员工管理
+				</div>
+				<ul class="menuson">
+					<li><cite></cite><a th:href="@{/employee/emplist}" target="rightFrame">员工列表</a><i></i></li>
+					<li><cite></cite><a th:href="@{/employee/toadd}" target="rightFrame">添加员工</a><i></i></li>
+				</ul>
+			</dd>
+			<dd>
+				<div class="title">
+					<span><img th:src="@{/images/leftico01.png}" /></span>考勤管理
+				</div>
+				<ul class="menuson">
+					<li><cite></cite><a th:href="@{/attendance/attendancelist}" target="rightFrame">考勤统计</a><i></i></li>
+					<li><cite></cite><a th:href="@{/attendance/SalaryList}" target="rightFrame">薪资统计</a><i></i></li>
+				</ul>
+			</dd>
+		</dl>
+
+	</body>
+
+</html>
